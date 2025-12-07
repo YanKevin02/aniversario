@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <title>Para meu Amor</title>
+   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Arial:wght@400;500&display=swap"
+      rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <style>
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         -webkit-tap-highlight-color: transparent;
+         /* user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none; */
+      }
+
+      html,
+      body {
+         height: 100%;
+         overflow-x: hidden;
+      }
+
+      body {
+         font-family: 'Arial', sans-serif;
+         background: #000;
+         color: #cfe8ff;
+         min-height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         overflow: auto;
+         padding: 15px;
+      }
+
+
+      .matrix-hearts {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         pointer-events: none;
+         z-index: 1;
+      }
+
+      .heart-matrix {
+         position: absolute;
+         color: #0b3d91;
+         font-size: 16px;
+         animation: fall linear infinite;
+         text-shadow: 0 0 5px #4b8fe6;
+      }
+
+      @media (min-width: 768px) {
+         .heart-matrix {
+            font-size: 20px;
+         }
+      }
+
+      @keyframes fall {
+         to {
+            transform: translateY(100vh);
+         }
+      }
+
+      .card {
+
+         width: 100%;
+         max-width: 500px;
+         background: rgba(0, 0, 0, 0.7);
+         border-radius: 15px;
+         border: 1px solid #0b3d91;
+         box-shadow: 0 0 30px rgba(11, 61, 145, 0.5);
+         padding: 20px;
+         text-align: center;
+         position: relative;
+         z-index: 10;
+         backdrop-filter: blur(5px);
+      }
+
+      @media (min-width: 768px) {
+         .card {
+            padding: 25px;
+            border-radius: 15px;
+         }
+      }
+
+      .header {
+         margin-bottom: 15px;
+         position: relative;
+      }
+
+      h1 {
+         font-size: 1.8rem;
+         background: linear-gradient(45deg, #0b3d91, #4b8fe6);
+         -webkit-background-clip: text;
+         background-clip: text;
+         color: transparent;
+         margin-bottom: 5px;
+         text-shadow: 0 0 10px rgba(11, 61, 145, 0.3);
+         line-height: 1.3;
+      }
+
+      @media (min-width: 768px) {
+         h1 {
+            font-size: 2rem;
+         }
+      }
+
+      .date {
+         font-size: 0.9rem;
+         color: #4b8fe6;
+         letter-spacing: 2px;
+      }
+
+      @media (min-width: 768px) {
+         .date {
+            font-size: 1rem;
+            letter-spacing: 2px;
+         }
+      }
+
+
+      .photo-frame {
+         width: 140px;
+         height: 140px;
+         margin: 0 auto 20px;
+         border-radius: 50%;
+         border: 3px solid transparent;
+         box-shadow: 0 0 15px #0b3d91,
+            inset 0 0 15px #0b3d91;
+         padding: 5px;
+         position: relative;
+         overflow: hidden;
+         animation: glow 2s infinite alternate;
+         filter: contrast(118%);
+      }
+
+      @media (min-width: 768px) {
+         .photo-frame {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 25px;
+         }
+      }
+
+      @keyframes glow {
+         from {
+            box-shadow: 0 0 10px #0b3d91, inset 0 0 10px #0b3d91;
+         }
+
+         to {
+            box-shadow: 0 0 20px #0b3d91, inset 0 0 20px #0b3d91;
+         }
+      }
+
+      .photo-frame img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         border-radius: 50%;
+      }
+
+      .message {
+         font-size: 1rem;
+         line-height: 1.6;
+         margin: 0 auto 15px;
+         max-width: 95%;
+         color: #cfe8ff;
+         opacity: 0;
+         transform: translateY(20px);
+         animation: fadeInUp 0.8s ease forwards;
+      }
+
+      @media (min-width: 768px) {
+         .message {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            max-width: 90%;
+         }
+      }
+
+      @keyframes fadeInUp {
+         to {
+            opacity: 1;
+            transform: translateY(0);
+         }
+      }
+
+      .heart-btn {
+         background: transparent;
+         color: #4b8fe6;
+         border: 2px solid #0b3d91;
+         padding: 12px 25px;
+         border-radius: 50px;
+         font-size: 1rem;
+         cursor: pointer;
+         margin: 15px 0;
+         box-shadow: 0 0 15px rgba(11, 61, 145, 0.5);
+         transition: all 0.3s;
+         position: relative;
+         overflow: hidden;
+      }
+
+      @media (min-width: 768px) {
+         .heart-btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            margin: 15px 0;
+         }
+      }
+
+      .heart-btn:hover {
+         background: rgba(11, 61, 145, 0.15);
+         box-shadow: 0 0 25px rgba(11, 61, 145, 0.8);
+         transform: scale(1.05);
+         transition: all 0.2s;
+      }
+
+      .heart-btn::before {
+         content: '';
+         position: absolute;
+         top: -50%;
+         left: -50%;
+         width: 200%;
+         height: 200%;
+         background: linear-gradient(transparent,
+               rgba(75, 143, 230, 0.25),
+               transparent);
+         transform: rotate(45deg);
+         animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+         0% {
+            left: -50%;
+         }
+
+         100% {
+            left: 150%;
+         }
+      }
+
+      .signature {
+         font-family: 'Dancing Script', cursive;
+         font-size: 2.2rem;
+         color: #2159ba;
+         margin-top: 15px;
+         opacity: 0;
+         animation: fadeIn 1s ease 1.5s forwards;
+         text-shadow: 0 0 10px rgba(11, 61, 145, 0.5);
+      }
+
+      @media (min-width: 768px) {
+         .signature {
+            font-size: 1.8rem;
+            margin-top: 20px;
+         }
+      }
+
+      .music-btn {
+         position: absolute;
+         top: 45px;
+         right: 15px;
+         background: transparent;
+         border: 1px solid #0b3d91;
+         color: #4b8fe6;
+         width: 40px;
+         height: 40px;
+         border-radius: 50%;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         cursor: pointer;
+         z-index: 20;
+         box-shadow: 0 0 10px rgba(11, 61, 145, 0.5);
+         transition: all 0.3s;
+         font-size: 1rem;
+      }
+
+      @media (min-width: 768px) {
+         .music-btn {
+            top: 10%;
+            right: 20px;
+         }
+      }
+
+      .music-btn:hover {
+         background: rgba(11, 61, 145, 0.12);
+         box-shadow: 0 0 15px rgba(11, 61, 145, 0.8);
+      }
+
+
+      .modal {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: rgba(0, 0, 0, 0.85);
+         z-index: 1000;
+         justify-content: center;
+         align-items: center;
+         animation: fadeIn 0.5s ease forwards;
+         overflow-y: auto;
+         padding: 20px;
+      }
+
+
+
+      @keyframes fadeIn {
+         from {
+            opacity: 0;
+         }
+
+         to {
+            opacity: 1;
+         }
+      }
+
+      .modal-content {
+         display: flex;
+         position: relative;
+         width: 100%;
+         max-width: 600px;
+         background: rgba(0, 0, 0, 0.7);
+         border-radius: 15px;
+         border: 1px solid #0b3d91;
+         box-shadow: 0 0 30px rgba(11, 61, 145, 0.5);
+         padding: 40px 20px;
+         color: #ffcce0;
+         text-align: center;
+      }
+
+
+
+      .torn-paper {
+         position: relative;
+         margin-top: 0;
+         padding: 30px 20px;
+         background: rgba(0, 0, 0, 0.8);
+         border-radius: 5px;
+      }
+
+      @media (max-width: 568px) {
+         .torn-paper {
+            margin-top: 0%;
+         }
+      }
+
+      @media (min-width: 768px) {
+         .torn-paper {
+            padding: 40px 30px;
+         }
+      }
+
+      .torn-paper::before,
+      .torn-paper::after {
+         content: "";
+         position: absolute;
+         left: 0;
+         right: 0;
+         height: 15px;
+         background-image:
+            radial-gradient(circle at 0 0, transparent 25%, #0b3d91 25%, #0b3d91 75%, transparent 75%),
+            radial-gradient(circle at 10px 0, transparent 25%, #0b3d91 25%, #0b3d91 75%, transparent 75%);
+         background-size: 20px 15px;
+         background-repeat: repeat-x;
+         z-index: 2;
+      }
+
+      .torn-paper::before {
+         top: -10px;
+      }
+
+      .torn-paper::after {
+         bottom: -10px;
+         transform: rotate(180deg);
+      }
+
+      .letter-title {
+         font-family: 'Dancing Script', cursive;
+         font-size: 2.2rem;
+         color: #0b3d91;
+         margin-bottom: 20px;
+         text-shadow: 0 0 15px rgba(11, 61, 145, 0.6);
+      }
+
+      @media (min-width: 768px) {
+         .letter-title {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+         }
+      }
+
+      .letter-content {
+         font-size: 1rem;
+         line-height: 1.7;
+         text-align: left;
+         margin-bottom: 25px;
+         color: #cfe8ff;
+         padding: 0 10px;
+      }
+
+      @media (min-width: 768px) {
+         .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding: 0 20px;
+         }
+      }
+
+      .letter-content p {
+         margin-bottom: 5px;
+      }
+
+      .letter-signature {
+         font-family: 'Dancing Script', cursive;
+         font-size: 2.2rem;
+         color: #0b3d91;
+         text-align: center;
+         margin-top: 20px;
+         text-shadow: 0 0 10px rgba(11, 61, 145, 0.5);
+      }
+
+      @media (min-width: 768px) {
+         .letter-signature {
+            font-size: 2.4rem;
+         }
+      }
+
+      .close-btn {
+         position: fixed;
+         top: 15px;
+         right: 15px;
+         color: #4b8fe6;
+         font-size: 28px;
+         cursor: pointer;
+         transition: all 0.3s;
+         width: 40px;
+         height: 40px;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         border-radius: 50%;
+         background: rgba(0, 0, 0, 0.7);
+         border: 1px solid #0b3d91;
+         z-index: 1100;
+      }
+
+      @media (min-width: 768px) {
+         .close-btn {
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            font-size: 32px;
+         }
+      }
+
+      .close-btn:hover {
+         color: #0b3d91;
+         transform: scale(1.1);
+      }
+
+      /* Efectos de corazones */
+      @keyframes pop {
+         to {
+            transform: scale(10);
+         }
+      }
+
+      @keyframes fadeOut {
+         to {
+            opacity: 0;
+            transform: scale(0.5);
+         }
+      }
+
+      @media (max-width: 767px) {
+         .modal {
+            align-items: flex-start;
+            padding-top: 60px;
+            -webkit-overflow-scrolling: touch;
+         }
+
+         .modal-content {
+            margin-bottom: 40px;
+         }
+
+         .letter-title {
+            font-size: 1.8rem;
+         }
+
+         .letter-content {
+            font-size: 0.95rem;
+         }
+
+         .letter-signature {
+            font-size: 1.8rem;
+         }
+      }
+
+      .img {
+         filter: contrast(500%);
+      }
+
+      @media screen and (min-height: 700px) {
+         .modal-content {
+            margin: 20px 0;
+         }
+
+         .card {
+            margin: 20px 0;
+         }
+      }
+
+      @media screen and (max-height: 700px) and (min-height: 650px) {
+         .modal-content {
+            margin-top: 40px
+         }
+
+         .card {
+            margin: 40px 0;
+         }
+      }
+
+      @media screen and (min-height: 590px) and (max-height: 650px) {
+         .modal-content {
+            margin-top: 80px;
+         }
+
+         .card {
+            margin: 80px 0;
+         }
+      }
+
+      @media screen and (max-height: 590px) and (min-height: 550px) {
+         .modal-content {
+            margin-top: 120px;
+         }
+
+         .card {
+            margin: 120px;
+         }
+      }
+
+      @media screen and (max-height: 550px) and (min-height: 300px) {
+         .modal-content {
+            margin-top: 160px;
+         }
+
+         .card {
+            margin: 160px 0;
+         }
+
+      }
+
+      @media screen and (max-height: 300px) {
+         .modal-content {
+            margin-top: 200px;
+         }
+
+         .card {
+            margin: 200px 0;
+         }
+      }
+   </style>
+</head>
+
+<body>
+   <div class="matrix-hearts" id="matrixHearts"></div>
+
+   <div class="card">
+      <div class="header">
+         <h1>Feliz Dia, meu<br>Amor!</h1>
+         <div class="date">10 de Dezembro!</div>
+      </div>
+      <button class="music-btn" id="musicBtn">♪</button>
+      <div class="photo-frame">
+         <img src="https://images.pexels.com/photos/27048758/pexels-photo-27048758.jpeg"
+            alt="Imagem de um Lírio Branco">
+      </div>
+
+      <p class="message" style="animation-delay: 0.3s;">
+         Neste dia especial, quero que você saiba...
+      </p>
+
+      <p class="message" style="animation-delay: 0.6s;"> Você é o amor que ilumina minha vida e, como um lírio branco,
+         sua pureza e beleza me encantam mais a cada dia.
+
+      </p>
+
+      <button class="heart-btn" id="heartBtn">💙 Abra meu coração</button>
+
+      <div class="signature">Para você, com amor, meu amor!</div>
+   </div>
+
+   <div class="modal" id="letterModal">
+      <span class="close-btn" id="closeBtn">×</span>
+      <div class="modal-content">
+         <div class="torn-paper">
+            <h2 class="letter-title">Dia Especial...</h2>
+
+            <div class="letter-content">
+               <p> E quem diria... Mais um ano se completa e mais um ano eu estou aqui, ao seu lado como sempre prometi!
+               </p>
+               <p> Nunca imaginei que estaria onde estou hoje, namorando com você... Hoje, estou aqui para não
+                  simplesmente falar, mas para te lembrar da menina incrível que você é, meu bem. Aquela menina que eu
+                  vi no dia 20 de janeiro de 2023 não sabia o quão linda você é, e eu nem to falando da aparência
+                  física. Você, meu bem, é uma menina incrível, muito esforçada, com um sorriso lindo, com um olhar que
+                  encanta, com o desejo de ver todos bem, que deseja o bem ao próximo e, o melhor, é católica!!</p>
+               <p></p>
+               <p></p>
+               <p></p>
+               <p></p>
+               <p></p>
+            </div>
+
+            <div class="letter-signature">Feliz aniversário, minha princesa!</div>
+         </div>
+      </div>
+   </div>
+
+   <script>
+      document.addEventListener('DOMContentLoaded', function () {
+
+         // Try to enter fullscreen as soon as possible (may be blocked by browser)
+         function requestFullscreenFor(element) {
+            if (!element) return Promise.reject('No element');
+            const request = element.requestFullscreen || element.webkitRequestFullscreen || element.msRequestFullscreen;
+            if (request) return request.call(element);
+            return Promise.reject('Fullscreen API not supported');
+         }
+
+         function isInFullscreen() {
+            return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+         }
+
+         // Create a lightweight overlay prompting the user to click to enter fullscreen.
+         function showFullscreenPrompt() {
+            if (document.getElementById('fsPrompt')) return;
+            const overlay = document.createElement('div');
+            overlay.id = 'fsPrompt';
+            overlay.style.position = 'fixed';
+            overlay.style.inset = '0';
+            overlay.style.display = 'flex';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            overlay.style.background = 'rgba(0,0,0,1)';
+            overlay.style.zIndex = '99999';
+
+            const box = document.createElement('div');
+            box.style.background = 'rgba(0,0,0,0.85)';
+            box.style.border = '1px solid #0b3d91';
+            box.style.padding = '20px';
+            box.style.borderRadius = '10px';
+            box.style.color = '#cfe8ff';
+            box.style.textAlign = 'center';
+            box.style.boxShadow = '0 0 30px rgba(11,61,145,0.5)';
+
+            const msg = document.createElement('div');
+            msg.textContent = 'Clique para entrar em tela cheia (recomendado)';
+            msg.style.marginBottom = '12px';
+
+            const btn = document.createElement('button');
+            btn.textContent = 'Entrar em Tela Cheia';
+            btn.style.padding = '10px 18px';
+            btn.style.borderRadius = '8px';
+            btn.style.border = '2px solid #0b3d91';
+            btn.style.background = 'transparent';
+            btn.style.color = '#4b8fe6';
+            btn.style.cursor = 'pointer';
+
+            btn.addEventListener('click', () => {
+               requestFullscreenFor(document.documentElement).catch(() => {/* ignore */}).finally(() => {
+                  overlay.remove();
+               });
+            });
+
+            box.appendChild(msg);
+            box.appendChild(btn);
+            overlay.appendChild(box);
+            document.body.appendChild(overlay);
+         }
+
+         // Attempt to auto-enter fullscreen. If blocked, show the clickable prompt.
+         function attemptAutoFullscreen() {
+            requestFullscreenFor(document.documentElement).then(() => {
+               // successfully entered fullscreen
+            }).catch(() => {
+               // likely blocked by browser — show prompt after short delay
+               setTimeout(() => {
+                  if (!isInFullscreen()) showFullscreenPrompt();
+               }, 500);
+            });
+         }
+
+         // Optional: exit fullscreen with Escape if supported
+         document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape" && isInFullscreen()) {
+               const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+               if (exit) exit.call(document).catch(() => {});
+            }
+         });
+
+         // Start the fullscreen attempt on load
+         attemptAutoFullscreen();
+         const matrixHearts = document.getElementById('matrixHearts');
+         const heartSymbols = ['❤', '♥', '💖', '💗', '💘', '💓'];
+
+         function createMatrixHearts() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-matrix';
+            heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+            heart.style.opacity = Math.random() * 0.5 + 0.3;
+            heart.style.fontSize = (10 + Math.random() * 15) + 'px';
+            heart.style.zIndex = 0.1;
+
+            matrixHearts.appendChild(heart);
+
+            setTimeout(() => {
+               heart.remove();
+            }, 5000);
+         }
+
+         setInterval(createMatrixHearts, 90);
+         const heartBtn = document.getElementById('heartBtn');
+         const letterModal = document.getElementById('letterModal');
+         const closeBtn = document.getElementById('closeBtn');
+
+         heartBtn.addEventListener('click', function () {
+            letterModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            for (let i = 0; i < 30; i++) {
+               setTimeout(() => {
+                  createHeartExplosion();
+               }, i * 50);
+            }
+         });
+
+         closeBtn.addEventListener('click', function () {
+            letterModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+         });
+
+         window.addEventListener('click', function (event) {
+            if (event.target === letterModal) {
+               letterModal.style.display = 'none';
+               document.body.style.overflow = 'auto';
+            }
+         });
+
+         const audio = new Audio('./Laços - Tiago IORC.mp3');
+         let isPlaying = false;
+
+         function toggleAudio() {
+            if (isPlaying) {
+               audio.pause();
+               musicBtn.textContent = '♪';
+            } else {
+               audio.play().catch(e => console.log("A reprodução automática foi interrompida."));
+               musicBtn.textContent = '❚❚';
+            }
+            isPlaying = !isPlaying;
+         }
+
+         const musicBtn = document.getElementById('musicBtn');
+         musicBtn.addEventListener('click', toggleAudio);
+
+         window.addEventListener('mousemove', function autoPlayOnce() {
+            if (!isPlaying) {
+               audio.play().then(() => {
+                  musicBtn.textContent = '❚❚';
+                  isPlaying = true;
+                  window.removeEventListener('mousemove', autoPlayOnce);
+               }).catch(e => console.log("Reprodução automática bloqueada pelo navegador."));
+            }
+         });
+
+         function createHeartExplosion() {
+            const explosion = document.createElement('div');
+            explosion.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            explosion.style.position = 'fixed';
+            explosion.style.left = Math.random() * 100 + 'vw';
+            explosion.style.top = Math.random() * 100 + 'vh';
+            explosion.style.color = `hsl(${Math.random() * 30 + 200}, 80%, 60%)`;
+            explosion.style.fontSize = '25px';
+            explosion.style.zIndex = '100';
+            explosion.style.transform = 'scale(2)';
+            explosion.style.animation = `pop 0.5s forwards, fadeOut 0.5s 0.5s forwards`;
+
+            document.body.appendChild(explosion);
+
+            setTimeout(() => {
+               explosion.remove();
+            }, 1000);
+         }
+
+         document.addEventListener('dblclick', function (e) {
+            e.preventDefault();
+         }, { passive: false });
+         const style = document.createElement('style');
+         style.textContent = `
+            @keyframes pop {
+                to { transform: scale(1); }
+            }
+            @keyframes fadeOut {
+                to { opacity: 0; transform: scale(0.5); }
+            }
+        `;
+         document.head.appendChild(style);
+      });
+
+   </script>
+</body>
+
+</html>
