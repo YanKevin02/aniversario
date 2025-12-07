@@ -760,18 +760,21 @@
          });
 
          const audio = new Audio('./Laços - Tiago IORC.mp3');
+         audio.loop = true;
          let isPlaying = false;
 
          function toggleAudio() {
             if (isPlaying) {
                audio.pause();
                musicBtn.textContent = '♪';
+               isPlaying = false;
             } else {
                audio.play().catch(e => console.log("A reprodução automática foi interrompida."));
                musicBtn.textContent = '❚❚';
+               isPlaying = true;
             }
-            isPlaying = !isPlaying;
          }
+         
 
          const musicBtn = document.getElementById('musicBtn');
          musicBtn.addEventListener('click', toggleAudio);
