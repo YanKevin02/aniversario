@@ -575,9 +575,17 @@
 </head>
 
 <body>
-   <div class="matrix-hearts" id="matrixHearts"></div>
 
-   <div class="card">
+   <!-- Fullscreen Welcome View -->
+   <div id="welcomeFullscreen" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000;z-index:2000;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#cfe8ff;text-align:center;">
+      <h1 style="font-family:'Dancing Script',cursive;font-size:2.5rem;color:#4b8fe6;text-shadow:0 0 20px #0b3d91;">Oi, meu amor!</h1>
+      <p style="font-size:1.2rem;margin:20px 0 30px; color: #1e4271;">Clique abaixo para entrar em modo tela cheia (recomendado)</p>
+      <button id="enterFullscreenBtn" style="padding:15px 40px;font-size:1.2rem;border-radius:30px;background:#0b3d91;color:#fff;border:none;box-shadow:0 0 15px #4b8fe6;cursor:pointer;transition:background 0.2s;">Entrar em Tela Cheia</button>
+   </div>
+
+   <div class="matrix-hearts" id="matrixHearts" style="display:none;"></div>
+
+   <div class="card" style="display:none;">
       <div class="header">
          <h1>Feliz Dia, meu<br>Amor!</h1>
          <div class="date">10 de Dezembro!</div>
@@ -602,7 +610,7 @@
       <div class="signature">Para você, com amor, meu amor!</div>
    </div>
 
-   <div class="modal" id="letterModal">
+   <div class="modal" id="letterModal" style="display:none;">
       <span class="close-btn" id="closeBtn">×</span>
       <div class="modal-content">
          <div class="torn-paper">
@@ -630,89 +638,41 @@
 
    <script>
       document.addEventListener('DOMContentLoaded', function () {
+         // Fullscreen welcome logic
+         const welcomeFullscreen = document.getElementById('welcomeFullscreen');
+         const enterFullscreenBtn = document.getElementById('enterFullscreenBtn');
+         const matrixHearts = document.getElementById('matrixHearts');
+         const card = document.querySelector('.card');
+         const letterModal = document.getElementById('letterModal');
 
-         // Try to enter fullscreen as soon as possible (may be blocked by browser)
-         function requestFullscreenFor(element) {
-            if (!element) return Promise.reject('No element');
-            const request = element.requestFullscreen || element.webkitRequestFullscreen || element.msRequestFullscreen;
-            if (request) return request.call(element);
-            return Promise.reject('Fullscreen API not supported');
+         function showMainContent() {
+            welcomeFullscreen.style.display = 'none';
+            matrixHearts.style.display = '';
+            card.style.display = '';
          }
 
-         function isInFullscreen() {
-            return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+         function enterFullscreen() {
+            const el = document.documentElement;
+            if (el.requestFullscreen) {
+               el.requestFullscreen();
+            } else if (el.webkitRequestFullscreen) {
+               el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+               el.msRequestFullscreen();
+            }
+            showMainContent();
          }
 
-         // Create a lightweight overlay prompting the user to click to enter fullscreen.
-         function showFullscreenPrompt() {
-            if (document.getElementById('fsPrompt')) return;
-            const overlay = document.createElement('div');
-            overlay.id = 'fsPrompt';
-            overlay.style.position = 'fixed';
-            overlay.style.inset = '0';
-            overlay.style.display = 'flex';
-            overlay.style.alignItems = 'center';
-            overlay.style.justifyContent = 'center';
-            overlay.style.background = 'rgba(0,0,0,1)';
-            overlay.style.zIndex = '99999';
+         enterFullscreenBtn.addEventListener('click', enterFullscreen);
 
-            const box = document.createElement('div');
-            box.style.background = 'rgba(0,0,0,0.85)';
-            box.style.border = '1px solid #0b3d91';
-            box.style.padding = '20px';
-            box.style.borderRadius = '10px';
-            box.style.color = '#cfe8ff';
-            box.style.textAlign = 'center';
-            box.style.boxShadow = '0 0 30px rgba(11,61,145,0.5)';
-
-            const msg = document.createElement('div');
-            msg.textContent = 'Clique para entrar em tela cheia (recomendado)';
-            msg.style.marginBottom = '12px';
-
-            const btn = document.createElement('button');
-            btn.textContent = 'Entrar em Tela Cheia';
-            btn.style.padding = '10px 18px';
-            btn.style.borderRadius = '8px';
-            btn.style.border = '2px solid #0b3d91';
-            btn.style.background = 'transparent';
-            btn.style.color = '#4b8fe6';
-            btn.style.cursor = 'pointer';
-
-            btn.addEventListener('click', () => {
-               requestFullscreenFor(document.documentElement).catch(() => {/* ignore */}).finally(() => {
-                  overlay.remove();
-               });
-            });
-
-            box.appendChild(msg);
-            box.appendChild(btn);
-            overlay.appendChild(box);
-            document.body.appendChild(overlay);
-         }
-
-         // Attempt to auto-enter fullscreen. If blocked, show the clickable prompt.
-         function attemptAutoFullscreen() {
-            requestFullscreenFor(document.documentElement).then(() => {
-               // successfully entered fullscreen
-            }).catch(() => {
-               // likely blocked by browser — show prompt after short delay
-               setTimeout(() => {
-                  if (!isInFullscreen()) showFullscreenPrompt();
-               }, 500);
-            });
-         }
-
-         // Optional: exit fullscreen with Escape if supported
-         document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape" && isInFullscreen()) {
-               const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
-               if (exit) exit.call(document).catch(() => {});
+         // If already in fullscreen, show main content
+         document.addEventListener('fullscreenchange', function () {
+            if (document.fullscreenElement) {
+               showMainContent();
             }
          });
 
-         // Start the fullscreen attempt on load
-         attemptAutoFullscreen();
-         const matrixHearts = document.getElementById('matrixHearts');
+         // --- Original logic below (only runs after fullscreen) ---
          const heartSymbols = ['❤', '♥', '💖', '💗', '💘', '💓'];
 
          function createMatrixHearts() {
@@ -734,7 +694,6 @@
 
          setInterval(createMatrixHearts, 90);
          const heartBtn = document.getElementById('heartBtn');
-         const letterModal = document.getElementById('letterModal');
          const closeBtn = document.getElementById('closeBtn');
 
          heartBtn.addEventListener('click', function () {
@@ -761,6 +720,8 @@
 
          const audio = new Audio('./Laços - Tiago IORC.mp3');
          let isPlaying = false;
+         audio.loop = true;
+         audio.volume = 0.2;
 
          function toggleAudio() {
             if (isPlaying) {
@@ -773,7 +734,6 @@
                isPlaying = true;
             }
          }
-         
 
          const musicBtn = document.getElementById('musicBtn');
          musicBtn.addEventListener('click', toggleAudio);
@@ -821,7 +781,6 @@
         `;
          document.head.appendChild(style);
       });
-
    </script>
 </body>
 
