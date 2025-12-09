@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
          heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
          heart.style.left = Math.random() * 100 + 'vw';
          heart.style.top = '-10vh';
-         heart.style.animationDuration = 6 + Math.random() * 3 + 's';
+         heart.style.animationDuration = 10 + Math.random() * 3 + 's';
          heart.style.opacity = Math.random() * 0.5 + 0.3;
          heart.style.fontSize = (10 + Math.random() * 15) + 'px';
          heart.style.zIndex = 0.1;
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const style = document.createElement('style');
       style.textContent = `
          @keyframes pop {
-               to { transform: scale(1); }
+               to { transform: scale(1.05); }
          }
          @keyframes fadeOut {
                to { opacity: 0; transform: scale(0.5); }
